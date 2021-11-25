@@ -34,7 +34,7 @@ namespace MultMatricesTest
         public void TestsForFileFunctions()
         {
             var matrix1 = GenerateMatrix(10, 10);
-            string path = "/home/nastya/RiderProjects/Homework3Semester/MultMatrices/MultMatrices/Matrix1.txt";
+            string path = System.IO.Path.GetTempPath() + Guid.NewGuid() + ".txt";
             WriteMatrix(matrix1, path);
             var matrix2 = ReadMatrix(path);
             Assert.IsTrue(IsMatricesEqual(matrix1, matrix2));
