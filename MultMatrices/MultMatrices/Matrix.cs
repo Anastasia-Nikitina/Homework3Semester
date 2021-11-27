@@ -36,17 +36,16 @@ namespace MultMatrices
                 throw new ArgumentException("Incorrect matrix sizes:(");
                 
             }
-            int[,] res = new int[matrix1.Rows, matrix2.Columns];
+            var res = new int[matrix1.Rows, matrix2.Columns];
 
-            for (int i = 0; i < matrix1.Rows; i++)
+            for (var i = 0; i < matrix1.Rows; i++)
             {
-                for (int j = 0; j < matrix2.Columns; j++)
+                for (var j = 0; j < matrix2.Columns; j++)
                 {
-                    for (int k = 0; k < matrix1.Columns; k++)
+                    for (var k = 0; k < matrix1.Columns; k++)
                     {
                         res[i, j] += matrix1.Array[i, k] * matrix2.Array[k, j];
                     }
-                    
                 }
             }
             return new Matrix(res);
@@ -65,23 +64,22 @@ namespace MultMatrices
                 throw new ArgumentException("Incorrect matrix sizes:(");
             }
             var threads = new Thread[Environment.ProcessorCount];
-            int[,] res = new int [matrix1.Rows, matrix2.Columns];
-            int chunkSize = matrix1.Rows / threads.Length + 1;
+            var res = new int [matrix1.Rows, matrix2.Columns];
+            var chunkSize = matrix1.Rows / threads.Length + 1;
             for (int i = 0; i < threads.Length; i++)
             {
                 var currentI = i;
                 threads[i] = new Thread(() =>
                 {
-                    for (int j = currentI * chunkSize; j < (currentI + 1) * chunkSize && j < matrix1.Rows; j++)
+                    for (var j = currentI * chunkSize; j < (currentI + 1) * chunkSize && j < matrix1.Rows; j++)
                     {
-                        for (int k = 0; k < matrix2.Columns; k++)
+                        for (var k = 0; k < matrix2.Columns; k++)
                         {
-                            for (int l = 0; l < matrix1.Columns; l++)
+                            for (var l = 0; l < matrix1.Columns; l++)
                             {
                                 res[j, k] += matrix1.Array[j, l] * matrix2.Array[l, k];
                             }
                         }
-
                     }
                 });
             }
@@ -103,11 +101,11 @@ namespace MultMatrices
         /// <returns></returns>
         public static Matrix GenerateMatrix(int rows, int columns)
         {
-            Random rand = new Random();
-            int[,] res = new int[rows, columns];
-            for (int i = 0; i < rows; i++)
+            var rand = new Random();
+            var res = new int[rows, columns];
+            for (var i = 0; i < rows; i++)
             {
-                for (int j = 0; j < columns; j++)
+                for (var j = 0; j < columns; j++)
                 {
                     res[i, j] = rand.Next(50);
                 }
@@ -126,9 +124,9 @@ namespace MultMatrices
             {
                 return false;
             }
-            for (int i = 0; i < matrix1.Rows; i++)
+            for (var i = 0; i < matrix1.Rows; i++)
             {
-                for (int j = 0; j < matrix2.Columns; j++)
+                for (var j = 0; j < matrix2.Columns; j++)
                 {
                     if (matrix1.Array[i, j] != matrix2.Array[i ,j])
                     {

@@ -19,7 +19,7 @@ namespace MultMatrices
         /// <returns></returns>
         private static long MeasureTime(Matrix matrix1, Matrix matrix2, Func<Matrix, Matrix, Matrix> fun)
         {
-            Stopwatch stopWatch = new Stopwatch();
+            var stopWatch = new Stopwatch();
             stopWatch.Start();
             fun(matrix1, matrix2);
             stopWatch.Stop();
@@ -31,10 +31,10 @@ namespace MultMatrices
         /// <param name="fun"></param>
         public static void ResMeasurements(Func<Matrix, Matrix, Matrix> fun)
         {
-            for (int size = 100; size <= 1900; size += 300)
+            for (var size = 100; size <= 1900; size += 300)
             {
                 long sumTime = 0;
-                long [] arrTime = new long[16];
+                var arrTime = new long[16];
 
                 for (int i = 0; i <= 15; i++)
                 {

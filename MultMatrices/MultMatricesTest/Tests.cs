@@ -7,7 +7,6 @@ namespace MultMatricesTest
 {
     public class Tests
     {
-
         [TestCase(10, 20, 30)]
         [TestCase(100, 100, 100)]
         [TestCase(500, 300, 720)]
@@ -34,7 +33,7 @@ namespace MultMatricesTest
         public void TestsForFileFunctions()
         {
             var matrix1 = GenerateMatrix(10, 10);
-            string path = System.IO.Path.GetTempPath() + Guid.NewGuid() + ".txt";
+            var path = System.IO.Path.GetTempPath() + Guid.NewGuid() + ".txt";
             WriteMatrix(matrix1, path);
             var matrix2 = ReadMatrix(path);
             Assert.IsTrue(IsMatricesEqual(matrix1, matrix2));

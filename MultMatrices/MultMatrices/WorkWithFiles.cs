@@ -16,21 +16,20 @@ namespace MultMatrices
         /// <returns></returns>
         public static Matrix ReadMatrix(string path)
         {
-            string[] strMatrix = File.ReadAllLines(path);
-            int m = strMatrix.Length;
-            StringBuilder str = new StringBuilder (strMatrix[0]);
-            for (int i = 1; i < strMatrix.Length; i++)
+            var strMatrix = File.ReadAllLines(path);
+            var m = strMatrix.Length;
+            var str = new StringBuilder (strMatrix[0]);
+            for (var i = 1; i < strMatrix.Length; i++)
             {
-                Console.WriteLine(str);
                 str.Append(strMatrix[i]);
             }
             var numbers = str.ToString().Split(' ');
             var n = numbers.Length / m;
             var arr = new int[m, n];
-            int k = 0;
-            for (int i = 0; i < m; i++)
+            var k = 0;
+            for (var i = 0; i < m; i++)
             {
-                for (int j = 0; j < n; j++)
+                for (var j = 0; j < n; j++)
                 {
                     if (numbers[k] == "")
                     {
@@ -49,15 +48,16 @@ namespace MultMatrices
         /// <param name="path"></param>
         public static void WriteMatrix(Matrix matrix, string path)
         {
-            var strArr = new string[matrix.Rows];
-            for (int i = 0; i < matrix.Rows; i++)
+            var str = new StringBuilder (matrix.Columns);
+            for (var i = 0; i < matrix.Rows; i++)
             {
-                for (int j = 0; j < matrix.Columns; j++)
+                for (var j = 0; j < matrix.Columns; j++)
                 {
-                    strArr[i] += matrix.Array[i, j] + " ";
+                    str.Append(matrix.Array[i, j] + " ");
                 }
+                str.Append('\n');
             }
-            File.WriteAllLines(path, strArr);
+            File.WriteAllText(path, str.ToString());
         }
     }
 }
