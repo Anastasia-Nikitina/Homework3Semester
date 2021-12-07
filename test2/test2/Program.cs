@@ -12,7 +12,7 @@ namespace test2
             {
                 throw new ArgumentException("Enter the directory path");
             }
-            OneThreadCalculation(args[0]);
+            BitConverter.ToString(OneThreadCalculation(args[0]));
             MultThreadCalculation(args[0]);
             Comparison(args[0]);
 

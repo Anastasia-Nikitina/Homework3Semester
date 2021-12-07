@@ -7,16 +7,15 @@ namespace tests
 {
     public class Tests
     {
-
         [Test]
-        public void ExceptionOneThred()
-            {
-                Assert.Throws<FileNotFoundException>(() => CalcCheckSum.OneThreadCalculation("qwerty123"));
-            }
+        public void ExceptionOneThread()
+        {
+            Assert.Throws<FileNotFoundException>(() => CalcCheckSum.OneThreadCalculation("qwerty123"));
+        }
         [Test]
         public void ExceptionMultThread()
         {
-            Assert.Throws<FileNotFoundException>(() => CalcCheckSum.MultThreadCalculation("qwerty123"));
+            Assert.ThrowsAsync<FileNotFoundException>(async () => await CalcCheckSum.MultThreadCalculation("qwerty123"));
         }
         
     }

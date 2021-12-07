@@ -5,14 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c35556b3-29b9-4616-ae11-320595e4112c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.test2/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.test2/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test2.sln" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test2/CalcCheckSum.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test2/Program.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test2/test2.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/UnitTest1.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/tests.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.github/workflows/ubuntuCI.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../.github/workflows/ubuntuCI.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../appveyor.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../appveyor.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.test2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.test2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test2/CalcCheckSum.cs" beforeDir="false" afterPath="$PROJECT_DIR$/test2/CalcCheckSum.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test2/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/test2/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/UnitTest1.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tests/UnitTest1.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +33,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected=".NET Project.test2">
     <configuration name="test2" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/test2/bin/Debug/net6.0/test2" />
       <option name="PROGRAM_PARAMETERS" value="/test2/testik.txt" />
@@ -54,6 +52,9 @@
         <option name="Build" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue=".NET Project.test2" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -63,17 +64,28 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1638878530134</updated>
-      <workItem from="1638878540227" duration="5952000" />
+      <workItem from="1638878540227" duration="7974000" />
+      <workItem from="1638890534855" duration="379000" />
     </task>
+    <task id="LOCAL-00001" summary="MD5 test">
+      <created>1638886025571</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1638886025572</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
-  <component name="UnityProjectConfiguration" hasMinimizedUI="null" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="MD5 test" />
+    <option name="LAST_COMMIT_MESSAGE" value="MD5 test" />
   </component>
 </project>

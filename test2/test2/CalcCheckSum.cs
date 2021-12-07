@@ -32,22 +32,20 @@ namespace test2
                    return md5.ComputeHash(bytes);
                }    
            }
-           else
-           {
-               throw new FileNotFoundException("Directory doesn't exist");
-           }
+           throw new FileNotFoundException("Directory doesn't exist");
+           
         }
         
-        public static async Task<byte[]> MultThreadCalculation(string filePath)
+        public static async Task<byte[]> MultThreadCalculation(string path)
         {
-            if (Directory.Exists(filePath) | File.Exists(filePath))
+            if (Directory.Exists(path) | File.Exists(path))
             {
                 using var md5 = MD5.Create();
-                if (Directory.Exists(filePath))
+                if (Directory.Exists(path))
                 {
-                    var arrayOfFiles = Directory.GetFiles(filePath).OrderBy(file => file).ToArray();
+                    var arrayOfFiles = Directory.GetFiles(path).OrderBy(file => file).ToArray();
                     var res = new StringBuilder();
-                    res.Append(Path.GetFileName(Path.GetDirectoryName(filePath)));
+                    res.Append(Path.GetFileName(Path.GetDirectoryName(path)));
                     foreach (var file in arrayOfFiles)
                     {
                         res.Append(Encoding.ASCII.GetString(OneThreadCalculation(file)));
@@ -56,14 +54,12 @@ namespace test2
                 }
                 else
                 {
-                    var bytes = await File.ReadAllBytesAsync(filePath);
+                    var bytes = await File.ReadAllBytesAsync(path);
                     return md5.ComputeHash(bytes);
                 }    
             }
-            else
-            {
-                throw new FileNotFoundException("Directory doesn't exist");
-            }
+            throw new FileNotFoundException("Directory doesn't exist");
+            
         }
         
         public static void Comparison(string path)
