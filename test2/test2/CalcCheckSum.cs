@@ -10,6 +10,10 @@ namespace test2
 {
     public class CalcCheckSum
     {
+        /// <summary>
+        /// Method for single-threaded calculation check-sum
+        /// </summary>
+
         public static byte[] OneThreadCalculation(string path)
         {
            if (Directory.Exists(path) | File.Exists(path))
@@ -35,7 +39,10 @@ namespace test2
            throw new FileNotFoundException("Directory doesn't exist");
            
         }
-        
+        /// <summary>
+        /// Method for multi-threaded calculation check-sum
+        /// </summary>
+
         public static async Task<byte[]> MultThreadCalculation(string path)
         {
             if (Directory.Exists(path) | File.Exists(path))
@@ -61,7 +68,10 @@ namespace test2
             throw new FileNotFoundException("Directory doesn't exist");
             
         }
-        
+        /// <summary>
+        /// Method for comparison multi-threaded and single-threaded calculations
+        /// </summary>
+
         public static void Comparison(string path)
         {
             var stopWatchOneThread = new Stopwatch();
