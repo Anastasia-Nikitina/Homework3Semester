@@ -9,70 +9,66 @@ namespace Test3
     /// </summary>
     public class ThreadSafeBlockingQueue<T>
     {
-        private object lockObject = new object();
-        public SortedList<int, Queue<T>> queue = new SortedList<int, Queue<T>>();
+        private readonly object _lockObject = new ();
+        private readonly SortedList<int, Queue<T>> _queue = new ();
         
         /// <summary>
-        /// Method adding value with given priority
+        /// Method that add value with given priority
         /// </summary>
         public void Enqueue(T value, int priority)
         {
-            lock (lockObject)
+            lock (_lockObject)
             {
-                if (queue.ContainsKey(priority))
+                if (_queue.ContainsKey(priority))
                 {
-                    queue[priority].Enqueue(value);
+                    _queue[priority].Enqueue(value);
 
                 }
                 else
                 {
                     var addQueue = new Queue<T>();
                     addQueue.Enqueue(value);
-                    queue.Add(priority, addQueue);
+                    _queue.Add(priority, addQueue);
                 }
-
-                Monitor.PulseAll(lockObject);
+                Monitor.PulseAll(_lockObject);
             }
             
         }
         /// <summary>
-        /// Method that returns value with the greatest priority and removes it
+        /// Method that returns value with the greatest priority and removes this value
         /// </summary>
         /// <returns></returns>
         public T Dequeue()
         {
             T valueWithMaxPriority = default;
-            lock (lockObject)
+            lock (_lockObject)
             {
-                if (queue.Count != 0)
+                if (_queue.Count != 0)
                 {
-                    valueWithMaxPriority = queue.Last().Value.Dequeue();
-                    if (queue.Last().Value.Count == 0)
+                    valueWithMaxPriority = _queue.Last().Value.Dequeue();
+                    if (_queue.Last().Value.Count == 0)
                     {
-                        queue.Remove(queue.Last().Key);
+                        _queue.Remove(_queue.Last().Key);
                     }
                 }
                 else
                 {
-                    Monitor.Wait(lockObject);
+                    Monitor.Wait(_lockObject);
                 }
             }
-
             return valueWithMaxPriority;
         }
         /// <summary>
         /// Method that calculate size of queue
         /// </summary>
-
         public int Size()
         {
             int size;
-            lock (lockObject)
+            lock (_lockObject)
             {
-                size = queue.Count;
+                size = _queue.Count;
             }
             return size;
-
         }
     }
 }
