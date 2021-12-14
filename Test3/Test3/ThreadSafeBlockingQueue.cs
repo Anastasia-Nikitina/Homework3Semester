@@ -35,9 +35,8 @@ namespace Test3
             
         }
         /// <summary>
-        /// Method that returns value with the greatest priority and removes this value
+        /// Method that returns value with max priority and removes this value
         /// </summary>
-        /// <returns></returns>
         public T Dequeue()
         {
             T valueWithMaxPriority = default;
