@@ -2,8 +2,8 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace MultMatrices
-{
+namespace MultMatrices;
+
     /// <summary>
     /// Class for functions working with files
     /// </summary>
@@ -12,13 +12,11 @@ namespace MultMatrices
         /// <summary>
         /// Method for reading matrix from file
         /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
         public static Matrix ReadMatrix(string path)
         {
             var strMatrix = File.ReadAllLines(path);
             var m = strMatrix.Length;
-            var str = new StringBuilder (strMatrix[0]);
+            var str = new StringBuilder(strMatrix[0]);
             for (var i = 1; i < strMatrix.Length; i++)
             {
                 str.Append(strMatrix[i]);
@@ -41,14 +39,13 @@ namespace MultMatrices
             }
             return new Matrix(arr);
         }
+        
         /// <summary>
         /// Method for writing matrix to file
         /// </summary>
-        /// <param name="matrix"></param>
-        /// <param name="path"></param>
         public static void WriteMatrix(Matrix matrix, string path)
         {
-            var str = new StringBuilder (matrix.Columns);
+            var str = new StringBuilder(matrix.Columns);
             for (var i = 0; i < matrix.Rows; i++)
             {
                 for (var j = 0; j < matrix.Columns; j++)
@@ -60,4 +57,3 @@ namespace MultMatrices
             File.WriteAllText(path, str.ToString());
         }
     }
-}

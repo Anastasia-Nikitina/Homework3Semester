@@ -3,19 +3,18 @@ using System;
 using static MultMatrices.Matrix;
 using static MultMatrices.WorkWithFiles;
 
-namespace MultMatricesTest
-{
+namespace MultMatricesTest;
     public class Tests
     {
         [TestCase(10, 20, 30)]
         [TestCase(100, 100, 100)]
         [TestCase(500, 300, 720)]
-        public void ComparisionParAndSeqMult(int rows1, int columns1AndRows2, int columns2)
+        public void ComparisonParallelAndSequentialMultiplication(int rows1, int columns1AndRows2, int columns2)
         {
             var matrix1 = GenerateMatrix(rows1, columns1AndRows2);
             var matrix2  = GenerateMatrix (columns1AndRows2, columns2);
-            var seqRes = SeqMultMatrix(matrix1, matrix2);
-            var parRes = ParMultMatrix(matrix1, matrix2);
+            var seqRes = SequentialMatrixMultiplication (matrix1, matrix2);
+            var parRes = ParallelMatrixMultiplication(matrix1, matrix2);
             Assert.IsTrue (IsMatricesEqual(seqRes, parRes));
         }
 
@@ -26,9 +25,10 @@ namespace MultMatricesTest
         {
             var matrix1 = GenerateMatrix(rows1, columns1);
             var matrix2  = GenerateMatrix (rows2, columns2);
-            Assert.Throws<ArgumentException>(() => SeqMultMatrix(matrix1, matrix2));
-            Assert.Throws<ArgumentException>(() => ParMultMatrix(matrix1, matrix2));
+            Assert.Throws<ArgumentException>(() => SequentialMatrixMultiplication(matrix1, matrix2));
+            Assert.Throws<ArgumentException>(() => ParallelMatrixMultiplication(matrix1, matrix2));
         }
+        
         [Test]
         public void TestsForFileFunctions()
         {
@@ -39,4 +39,3 @@ namespace MultMatricesTest
             Assert.IsTrue(IsMatricesEqual(matrix1, matrix2));
         }
     }
-}

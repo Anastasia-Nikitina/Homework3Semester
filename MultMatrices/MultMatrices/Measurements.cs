@@ -1,10 +1,10 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
 using static MultMatrices.Matrix;
 using static System.Math;
 
-namespace MultMatrices
-{
+namespace MultMatrices;
     /// <summary>
     /// Class for measurement functions 
     /// </summary>
@@ -13,10 +13,6 @@ namespace MultMatrices
         /// <summary>
         /// Method for measuring the multiplication time of two matrices
         /// </summary>
-        /// <param name="matrix1"></param>
-        /// <param name="matrix2"></param>
-        /// <param name="fun"></param>
-        /// <returns></returns>
         private static long MeasureTime(Matrix matrix1, Matrix matrix2, Func<Matrix, Matrix, Matrix> fun)
         {
             var stopWatch = new Stopwatch();
@@ -25,38 +21,33 @@ namespace MultMatrices
             stopWatch.Stop();
             return stopWatch.ElapsedMilliseconds;
         }
+        
         /// <summary>
         /// Method for calculating average time and standard deviation
         /// </summary>
-        /// <param name="fun"></param>
         public static void ResMeasurements(Func<Matrix, Matrix, Matrix> fun)
         {
             for (var size = 100; size <= 1900; size += 300)
             {
                 long sumTime = 0;
-                var arrTime = new long[16];
+                var arrayTime = new long[16];
 
-                for (int i = 0; i <= 15; i++)
+                for (var i = 0; i <= 15; i++)
                 {
-                    Matrix matrix1 = GenerateMatrix(size, size);
-                    Matrix matrix2 = GenerateMatrix(size, size);
-                    long time = MeasureTime(matrix1, matrix2, fun);
-                    arrTime[i] = time;
+                    var matrix1 = GenerateMatrix(size, size);
+                    var matrix2 = GenerateMatrix(size, size);
+                    var time = MeasureTime(matrix1, matrix2, fun);
+                    arrayTime[i] = time;
                     sumTime += time;
                 }
-                var average = sumTime /= 15;
-                double standDev = 0;
-                foreach (var t in arrTime)
-                {
-                    standDev += Pow(t - average, 2);
-                }
+                var average = sumTime / 15;
+                var standDev = arrayTime.Sum(t => Pow(t - average, 2));
 
                 standDev /= 15;
 
                 Console.WriteLine($"Measurement of matrix {size}x{size} multiplication time :");
                 Console.WriteLine(
-                    $"Average time: {(double) average} ms, standard deviation: {Round(Sqrt(standDev), 5)} ms\n");
+                    $"Average time: {average} ms, standard deviation: {Round(Sqrt(standDev), 5)} ms\n");
             }
         }
     }
-}
