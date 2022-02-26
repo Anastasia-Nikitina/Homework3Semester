@@ -26,8 +26,8 @@ public class Matrix
             if (matrix1.Columns != matrix2.Rows)
             {
                 throw new ArgumentException("Incorrect matrix sizes:(");
-                
             }
+            
             var res = new int[matrix1.Rows, matrix2.Columns];
             for (var i = 0; i < matrix1.Rows; i++)
             {
