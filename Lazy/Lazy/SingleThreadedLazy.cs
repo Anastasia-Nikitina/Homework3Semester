@@ -7,7 +7,7 @@ public class SingleThreadedLazy<T>: ILazy<T>
 {
     private bool _isCalculated;
     private Func<T> _supplier;
-    private T _result;
+    private T? _result;
     
     /// <summary>
     /// Create a new  Single-threaded Lazy object 
@@ -20,7 +20,7 @@ public class SingleThreadedLazy<T>: ILazy<T>
     /// <summary>
     /// Return result of calculation
     /// </summary>
-    public T Get()
+    public T? Get()
     {
         if (_isCalculated)
         {
@@ -28,7 +28,7 @@ public class SingleThreadedLazy<T>: ILazy<T>
         }
         _result = _supplier();
         _isCalculated = true;
-        _supplier = null;
+        _supplier = null!;
         return _result;
     }
 }
