@@ -36,7 +36,7 @@ public class Tests
 
         for (var i = 0; i < threads.Length; ++i)
         {
-            threads[i] = new Thread(() => Interlocked.Add( ref result, function.Get()));
+            threads[i] = new Thread(() => Interlocked.Add(ref result, function.Get()));
         }
 
         foreach (var thread in threads)
