@@ -18,7 +18,7 @@ public class Tests
     public void TestForRepeatCalls()
     {
         var a = 1;
-        var function = LazyFactory.CreateSingleThreadedLazy<int>(()=> a);
+        var function = LazyFactory.CreateSingleThreadedLazy<int>(() => a);
         while (a != 10)
         {
             Assert.IsTrue(function.Get() == 1);
