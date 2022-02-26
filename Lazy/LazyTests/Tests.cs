@@ -10,15 +10,16 @@ public class Tests
     [Test]
     public void TestForNullSupplier()
     {
-        Assert.Throws<ArgumentNullException>(() => LazyFactory.CreateSingleThreadedLazy<int>(null));
-        Assert.Throws<ArgumentNullException>(() => LazyFactory.CreateMultiThreadedLazy<int>(null));
+        Assert.Throws<ArgumentNullException>(() => LazyFactory.CreateSingleThreadedLazy<int>(null!));
+        Assert.Throws<ArgumentNullException>(() => LazyFactory.CreateMultiThreadedLazy<int>(null!));
     }
 
     [Test]
     public void TestForRepeatCalls()
     {
         var a = 1;
-        var function = LazyFactory.CreateSingleThreadedLazy<int>(() => a);
+        var a1 = a;
+        var function = LazyFactory.CreateSingleThreadedLazy(() => a1);
         while (a != 10)
         {
             Assert.AreEqual(1, function.Get());
