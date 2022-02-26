@@ -51,7 +51,7 @@ public class Matrix
             {
                 throw new ArgumentException("Incorrect matrix sizes:(");
             }
-            var threads = new Thread[Math.Min(matrix1.Rows,Environment.ProcessorCount)];
+            var threads = new Thread[Math.Min(matrix1.Rows, Environment.ProcessorCount)];
             var result = new int [matrix1.Rows, matrix2.Columns];
             var chunkSize = matrix1.Rows / threads.Length + 1;
             for (int i = 0; i < threads.Length; i++)
