@@ -18,10 +18,10 @@ public class Tests
     public void TestForRepeatCalls()
     {
         var a = 1;
-        var function = LazyFactory.CreateSingleThreadedLazy<int>(()=> a);
+        var function = LazyFactory.CreateSingleThreadedLazy<int>(() => a);
         while (a != 10)
         {
-            Assert.IsTrue(function.Get() == 1);
+            Assert.AreEqual(1, function.Get());
             a++;
         }
     }
@@ -36,7 +36,7 @@ public class Tests
 
         for (var i = 0; i < threads.Length; ++i)
         {
-            threads[i] = new Thread(() => Interlocked.Add( ref result, function.Get()));
+            threads[i] = new Thread(() => Interlocked.Add(ref result, function.Get()));
         }
 
         foreach (var thread in threads)
