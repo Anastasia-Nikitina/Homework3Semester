@@ -21,7 +21,7 @@ public class Tests
         var function = LazyFactory.CreateSingleThreadedLazy<int>(() => a);
         while (a != 10)
         {
-            Assert.IsTrue(function.Get() == 1);
+            Assert.AreEqual(1, function.Get());
             a++;
         }
     }
