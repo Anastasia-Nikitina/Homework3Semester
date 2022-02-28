@@ -1,59 +1,64 @@
-using System;
+namespace MultMatrices;
+
 using System.IO;
 using System.Text;
 
-namespace MultMatrices;
+/// <summary>
+/// Class for functions working with files.
+/// </summary>
+public static class WorkWithFiles
+{
+    /// <summary>
+    /// Method for reading matrix from file.
+    /// </summary>
+    /// <returns>Matrix.</returns>
+    public static Matrix ReadMatrix(string path)
+    {
+        var stringOfMatrix = File.ReadAllLines(path);
+        var rows = stringOfMatrix.Length;
+        var matrixInString = new StringBuilder(stringOfMatrix[0]);
+        for (var i = 1; i < stringOfMatrix.Length; i++)
+        {
+            matrixInString.Append(stringOfMatrix[i]);
+        }
+
+        var numbers = matrixInString.ToString().Split(' ');
+        var columns = numbers.Length / rows;
+        var array = new int[rows, columns];
+        var counter = 0;
+        for (var i = 0; i < rows; i++)
+        {
+            for (var j = 0; j < columns; j++)
+            {
+                if (numbers[counter] == string.Empty)
+                {
+                    counter += 1;
+                }
+
+                array[i, j] = int.Parse(numbers[counter]);
+                counter += 1;
+            }
+        }
+
+        return new Matrix(array);
+    }
 
     /// <summary>
-    /// Class for functions working with files
+    /// Method for writing matrix to file.
     /// </summary>
-    public static class WorkWithFiles
+    public static void WriteMatrix(Matrix matrix, string path)
     {
-        /// <summary>
-        /// Method for reading matrix from file
-        /// </summary>
-        public static Matrix ReadMatrix(string path)
+        var resultString = new StringBuilder(matrix.Array.GetLength(1));
+        for (var i = 0; i < matrix.Array.GetLength(0); i++)
         {
-            var strMatrix = File.ReadAllLines(path);
-            var m = strMatrix.Length;
-            var str = new StringBuilder(strMatrix[0]);
-            for (var i = 1; i < strMatrix.Length; i++)
+            for (var j = 0; j < matrix.Array.GetLength(1); j++)
             {
-                str.Append(strMatrix[i]);
+                resultString.Append(matrix.Array[i, j] + " ");
             }
-            var numbers = str.ToString().Split(' ');
-            var n = numbers.Length / m;
-            var arr = new int[m, n];
-            var k = 0;
-            for (var i = 0; i < m; i++)
-            {
-                for (var j = 0; j < n; j++)
-                {
-                    if (numbers[k] == "")
-                    {
-                        k += 1;
-                    }
-                    arr[i, j] = Int32.Parse(numbers[k]);
-                    k += 1;
-                }
-            }
-            return new Matrix(arr);
+
+            resultString.Append('\n');
         }
-        
-        /// <summary>
-        /// Method for writing matrix to file
-        /// </summary>
-        public static void WriteMatrix(Matrix matrix, string path)
-        {
-            var str = new StringBuilder(matrix.Columns);
-            for (var i = 0; i < matrix.Rows; i++)
-            {
-                for (var j = 0; j < matrix.Columns; j++)
-                {
-                    str.Append(matrix.Array[i, j] + " ");
-                }
-                str.Append('\n');
-            }
-            File.WriteAllText(path, str.ToString());
-        }
+
+        File.WriteAllText(path, resultString.ToString());
     }
+}
