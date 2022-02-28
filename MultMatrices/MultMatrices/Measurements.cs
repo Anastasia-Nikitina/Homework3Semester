@@ -12,18 +12,6 @@ using static System.Math;
 public static class Measurements
 {
     /// <summary>
-    /// Method for measuring the multiplication time of two matrices.
-    /// </summary>
-    private static long MeasureTime(Matrix matrix1, Matrix matrix2, Func<Matrix, Matrix, Matrix> fun)
-    {
-        var stopWatch = new Stopwatch();
-        stopWatch.Start();
-        fun(matrix1, matrix2);
-        stopWatch.Stop();
-        return stopWatch.ElapsedMilliseconds;
-    }
-
-    /// <summary>
     /// Method for calculating average time and standard deviation.
     /// </summary>
     public static void ResultMeasurements(Func<Matrix, Matrix, Matrix> fun)
@@ -56,5 +44,17 @@ public static class Measurements
             Console.WriteLine(
                 $"Average time: {average} ms, standard deviation: {Round(Sqrt(standDev), 5)} ms\n");
         }
+    }
+
+    /// <summary>
+    /// Method for measuring the multiplication time of two matrices.
+    /// </summary>
+    private static long MeasureTime(Matrix matrix1, Matrix matrix2, Func<Matrix, Matrix, Matrix> fun)
+    {
+        var stopWatch = new Stopwatch();
+        stopWatch.Start();
+        fun(matrix1, matrix2);
+        stopWatch.Stop();
+        return stopWatch.ElapsedMilliseconds;
     }
 }
