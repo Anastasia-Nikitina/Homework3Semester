@@ -1,5 +1,7 @@
 namespace Lazy;
 
+using System;
+
 /// <summary>
 /// Multi-threaded Lazy implementation
 /// </summary>
@@ -7,7 +9,7 @@ public class MultiThreadedLazy<T> : ILazy<T>
 {
     private volatile bool _isCalculated;
     private Func<T> _supplier;
-    private T? _result;
+    private T _result;
     private readonly object _lockObject = new();
     
     /// <summary>
@@ -15,13 +17,14 @@ public class MultiThreadedLazy<T> : ILazy<T>
     /// </summary>
     public MultiThreadedLazy(Func<T> supplier)
     {
-        _supplier = supplier ?? throw new ArgumentNullException();
+        ArgumentNullException.ThrowIfNull(supplier);
+        _supplier = supplier;
     }
 
     /// <summary>
     /// Return result of calculation
     /// </summary>
-    public T? Get()
+    public T Get()
     {
         if (_isCalculated)
         {
