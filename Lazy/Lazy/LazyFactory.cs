@@ -1,5 +1,7 @@
 ﻿namespace Lazy;
 
+using System;
+
 /// <summary>
 /// Class for creating Lazy objects
 /// </summary>

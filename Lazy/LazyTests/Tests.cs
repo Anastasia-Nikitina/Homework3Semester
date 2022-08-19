@@ -1,25 +1,25 @@
+namespace LazyTests;
+
 using System;
 using System.Threading;
 using Lazy;
 using NUnit.Framework;
 
-namespace LazyTests;
 
 public class Tests
 {
     [Test]
     public void TestForNullSupplier()
     {
-        Assert.Throws<ArgumentNullException>(() => LazyFactory.CreateSingleThreadedLazy<int>(null!));
-        Assert.Throws<ArgumentNullException>(() => LazyFactory.CreateMultiThreadedLazy<int>(null!));
+        Assert.Throws<ArgumentNullException>(() => LazyFactory.CreateSingleThreadedLazy<int>(null));
+        Assert.Throws<ArgumentNullException>(() => LazyFactory.CreateMultiThreadedLazy<int>(null));
     }
 
     [Test]
     public void TestForRepeatCalls()
     {
         var a = 1;
-        var a1 = a;
-        var function = LazyFactory.CreateSingleThreadedLazy(() => a1);
+        var function = LazyFactory.CreateSingleThreadedLazy(() => 1);
         while (a != 10)
         {
             Assert.AreEqual(1, function.Get());
