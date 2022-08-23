@@ -1,15 +1,17 @@
 ﻿namespace  MyNUnit;
 
-public static class Program
+internal static class Program
 {
     static void Main(string[] args)
     {
-        
         var path = args[0];
-        if (!Directory.Exists(path))  throw new ArgumentException("No directory found");
+        if (!Directory.Exists(path))
+        {
+            Console.WriteLine("No directory found");
+            return;
+        }
+           
         MyNUnit myNUnit = new();
         myNUnit.PrintInfo(path);
-        
     }
- 
 }

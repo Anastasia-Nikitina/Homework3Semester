@@ -16,12 +16,12 @@ public class Tests
     [Test]
     public void ForFailedAndPassedTests()
     {
-        Assert.AreEqual(CommonTests.Counter, 55);
+        Assert.AreEqual(16, CommonTests.Counter);
     }
     
     [Test]
     public void ForIgnoredAndExpectedTests()
     {
-        Assert.AreEqual(IgnoredAndExpectedTests.Counter, 1);
+        Assert.AreEqual(1, IgnoredAndExpectedTests.Counter);
     }
 }       

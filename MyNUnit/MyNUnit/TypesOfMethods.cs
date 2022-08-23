@@ -2,6 +2,9 @@ namespace MyNUnit;
 
 using System.Reflection;
 
+/// <summary>
+/// Class with information about types of methods
+/// </summary>
 public class TypesOfMethods
 {
     public List<MethodInfo> Test { get; } = new();

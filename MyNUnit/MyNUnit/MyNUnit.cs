@@ -1,14 +1,23 @@
+using System.Collections.Concurrent;
+
 namespace MyNUnit;
 
 using System.Diagnostics;
 using System.Reflection;
 using Attributes;
+using System;
 
+/// <summary>
+/// Class for running tests
+/// </summary>
 public class MyNUnit
 {
+    /// <summary>
+    /// Method that running tests and outputs information
+    /// </summary>
     public List<InformationAboutTest> Start(string path)
     {
-        var result = new List<InformationAboutTest>();
+        var result = new ConcurrentBag<InformationAboutTest>();
         var dllFiles = Directory.GetFiles(path, "*.dll");
         Parallel.ForEach(dllFiles, file =>
         {
@@ -16,30 +25,31 @@ public class MyNUnit
             Parallel.ForEach(types, type =>
             {
                 var listOfMethods = SplitMethodsIntoAttributes(type);
-                var instance = Activator.CreateInstance(type);
                 RunAnyMethods(listOfMethods.BeforeClass, null!);
-                foreach (var test in listOfMethods.Test)
+                Parallel.ForEach (listOfMethods.Test, test =>
                 {
+                    var instance = Activator.CreateInstance(type);
                     RunAnyMethods(listOfMethods.Before, instance);
                     var currentResult = RunTestAndOutInfo(test, instance);
-                    result.Add (currentResult);
+                    result.Add(currentResult);
                     RunAnyMethods(listOfMethods.After, instance);
-                }
-
+                });
                 RunAnyMethods(listOfMethods.AfterClass, null);
             });
         });
-        return result;
+        return result.ToList();
     }
 
+    /// <summary>
+    /// Method that prints information about test
+    /// </summary>
     public void PrintInfo(string path)
     {
         var result = Start(path);
-        result.ForEach(inf => Console.WriteLine("Test '{0}' {1}. Time: {2}. {3} ", inf.Name, inf.Result, inf.Time, inf.ReasonOfIgnore));
-
+        result.ForEach(inf => Console.WriteLine($"Test '{inf.Name}' {inf.Result}. Time: {inf.Time}. {inf.ReasonOfIgnore} "));
     }
 
-    private static void RunAnyMethods(List<MethodInfo> methods, object? instance)
+    private static string RunAnyMethods(List<MethodInfo> methods, object? instance)
     {
         foreach (var method in methods)
         {
@@ -49,12 +59,13 @@ public class MyNUnit
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                return $"Error: {e.Message}";
             }
         }
+        return "OK";
     }
     
-    private static string RunTestMethod(MethodBase method, object? classInstance)
+    private static Exception? RunTestMethod(MethodBase method, object? classInstance)
     {
         try
         {
@@ -62,10 +73,10 @@ public class MyNUnit
         }
         catch (Exception e)
         {
-            return $"Failed: {e.Message}";
+            return e;
         }
 
-        return "Passed";
+        return null;
     }
 
     private InformationAboutTest RunTestAndOutInfo(MethodInfo testMethod, object? instance)
@@ -75,22 +86,28 @@ public class MyNUnit
         {
             return new InformationAboutTest(testMethod.Name, "Ignored", 0, argumentOfAttribute.Ignore);
         }
-
         var stopWatch = new Stopwatch();
         stopWatch.Start();
         var result = RunTestMethod(testMethod, instance);
         stopWatch.Stop();
-        
         if (argumentOfAttribute.Expected != null)
         {
-            if (result != "Passed")
+            if (result == null)
             {
-                return new InformationAboutTest(testMethod.Name, "Passed", stopWatch.ElapsedMilliseconds, "");
+                return new InformationAboutTest(testMethod.Name, "Failed: expected exception, but test was passed", stopWatch.ElapsedMilliseconds, "");
             }
-            return new InformationAboutTest(testMethod.Name, "Failed: expected exception", stopWatch.ElapsedMilliseconds, "");
+            if (result.InnerException?.GetType() != argumentOfAttribute.Expected)
+            { 
+                return new InformationAboutTest(testMethod.Name, $"Failed: expected exception {argumentOfAttribute.Expected}, but occured {result.InnerException?.GetType()}", stopWatch.ElapsedMilliseconds, "");
+            }
+            return new InformationAboutTest(testMethod.Name, "Passed", stopWatch.ElapsedMilliseconds, "");
         }
-        
-        return new InformationAboutTest(testMethod.Name, result, stopWatch.ElapsedMilliseconds, "");
+
+        if (result != null)
+        {
+            return new InformationAboutTest(testMethod.Name, $"Failed: occured exception: {result.InnerException?.GetType()}", stopWatch.ElapsedMilliseconds, ""); 
+        }
+        return new InformationAboutTest(testMethod.Name, "Passed", stopWatch.ElapsedMilliseconds, "");
     }
 
     private static TypesOfMethods SplitMethodsIntoAttributes(Type classOfTests)
@@ -133,14 +150,14 @@ public class MyNUnit
         {
             if (method.IsStatic || method.GetParameters().Length != 0 || method.ReturnType.Name != "Void")
             {
-                throw new Exception("Test, Before and After methods must be non-static and mustn't return or take values.");
+                throw new IncorrectMethodException("Test, Before and After methods must be non-static and mustn't return or take values.");
             }
         }
         else if (typeOfAttribute == typeof(BeforeClass) || typeOfAttribute == typeof(AfterClass))
         {
             if (!method.IsStatic)
             {
-                throw new Exception("BeforeClass and AfterClass methods must be static");
+                throw new IncorrectMethodException("BeforeClass and AfterClass methods must be static");
             }
         }
     }

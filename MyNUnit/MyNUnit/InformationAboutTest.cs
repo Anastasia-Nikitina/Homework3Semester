@@ -1,5 +1,8 @@
 namespace MyNUnit;
 
+/// <summary>
+/// Class for information about result of test
+/// </summary>
 public class InformationAboutTest
 {
     public string Name { get; }
