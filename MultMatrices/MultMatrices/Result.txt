@@ -1,0 +1,46 @@
+Sequential mult
+
+Measurement of matrices 100x100 multiplication time :
+Average time: 10 ms, standard deviation: 2.14476 ms
+
+Measurement of matrices 400x400 multiplication time :
+Average time: 606 ms, standard deviation: 39.37935 ms
+
+Measurement of matrices 700x700 multiplication time :
+Average time: 3620 ms, standard deviation: 289.73287 ms
+
+Measurement of matrices 1000x1000 multiplication time :
+Average time: 11474 ms, standard deviation: 861.53445 ms
+
+Measurement of matrices 1300x1300 multiplication time :
+Average time: 25773 ms, standard deviation: 1719.21498 ms
+
+Measurement of matrices 1600x1600 multiplication time :
+Average time: 50105 ms, standard deviation: 3827.79372 ms
+
+Measurement of matrices 1900x1900 multiplication time :
+Average time: 82145 ms, standard deviation: 5356.57614 ms
+
+
+Parallel mult
+
+Measurement of matrices 100x100 multiplication time :
+Average time: 7 ms, standard deviation: 1.67332 ms
+
+Measurement of matrices 400x400 multiplication time :
+Average time: 350 ms, standard deviation: 24.62113 ms
+
+Measurement of matrices 700x700 multiplication time :
+Average time: 1916 ms, standard deviation: 130.36283 ms
+
+Measurement of matrices 1000x1000 multiplication time :
+Average time: 5711 ms, standard deviation: 377.89699 ms
+
+Measurement of matrices 1300x1300 multiplication time :
+Average time: 12836 ms, standard deviation: 855.6398 ms
+
+Measurement of matrices 1600x1600 multiplication time :
+Average time: 26254 ms, standard deviation: 1829.76672 ms
+
+Measurement of matrices 1900x1900 multiplication time :
+Average time: 42059 ms, standard deviation: 2747.28853 ms
