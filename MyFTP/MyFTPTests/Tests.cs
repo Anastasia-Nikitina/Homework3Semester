@@ -44,7 +44,7 @@ public class Tests
     {
         const string path = "../../../Test/Directory";
         var result = await _client.List(path, _token);
-        Assert.AreEqual((path + "/file1.txt", false) , result[1]);
+        Assert.AreEqual((path + "\\file1.txt", false) , result[0]);
     }
     
     [Test]
