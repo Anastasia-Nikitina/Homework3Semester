@@ -67,8 +67,10 @@ public class Tests
         var destination = Path.Combine(path, "fileForCopy.txt");
         var pathForGet = Path.Combine(path, "file1.txt");
         var expect = await File.ReadAllBytesAsync(pathForGet, _token);
-        await using var fileStream = new FileStream(destination, FileMode.OpenOrCreate); 
-        await _client.Get(pathForGet, fileStream, _token);
+        await using (var fileStream = new FileStream(destination, FileMode.OpenOrCreate))
+        {
+            await _client.Get(pathForGet, fileStream, _token);
+        }
         var result = await File.ReadAllBytesAsync(destination, _token);
         Assert.AreEqual(expect, result);
     }
