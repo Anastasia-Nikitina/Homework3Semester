@@ -64,8 +64,8 @@ public class Tests
     public async Task TestForGet()
     {
         var path = "../../../Test/Directory";
-        var destination = Path.Combine(path, "/fileForCopy.txt");
-        var pathForGet = Path.Combine(path, "/file1.txt");
+        var destination = Path.Combine(path, "fileForCopy.txt");
+        var pathForGet = Path.Combine(path, "file1.txt");
         var expect = await File.ReadAllBytesAsync(pathForGet, _token);
         await using var fileStream = new FileStream(destination, FileMode.OpenOrCreate); 
         await _client.Get(pathForGet, fileStream, _token);
