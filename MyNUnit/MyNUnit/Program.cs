@@ -1,17 +1,14 @@
-﻿namespace  MyNUnit;
-
-internal static class Program
-{
-    static void Main(string[] args)
+﻿if (args.Length == 1) {
+    var path = args[0];
+    if (!Directory.Exists(path))
     {
-        var path = args[0];
-        if (!Directory.Exists(path))
-        {
-            Console.WriteLine("No directory found");
-            return;
-        }
-           
-        MyNUnit myNUnit = new();
-        myNUnit.PrintInfo(path);
+        Console.WriteLine("No directory found");
+        return;
     }
+    var myNUnit = new MyNUnit.MyNUnit();
+    myNUnit.RunAndPrintInfo(path);
+}
+else
+{
+    Console.WriteLine("Enter one argument: the path to the directory containing the dll files");
 }
