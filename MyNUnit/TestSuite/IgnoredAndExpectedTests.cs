@@ -10,7 +10,6 @@ public class IgnoredAndExpectedTests
     public void IgnoredTest()
     {
         Counter -= 1;
-
     }
     
    [Test(Expected = typeof(ArgumentException))]
