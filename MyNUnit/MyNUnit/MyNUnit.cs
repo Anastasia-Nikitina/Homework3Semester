@@ -25,11 +25,19 @@ public class MyNUnit
             Parallel.ForEach(types, type =>
             {
                 var listOfMethods = SplitMethodsIntoAttributes(type);
-                RunAnyMethods(listOfMethods.BeforeClass, null!);
+                RunAnyMethods(listOfMethods.BeforeClass, null);
                 Parallel.ForEach (listOfMethods.Test, test =>
                 {
                     var instance = Activator.CreateInstance(type);
-                    RunAnyMethods(listOfMethods.Before, instance);
+                    try
+                    {
+                        RunAnyMethods(listOfMethods.Before, instance);
+                    }
+                    catch (Exception e)
+                    {
+                        result.Add(new InformationAboutTest(test.Name, "Failed: Before methods return exception", 0, e.Message));
+                        return;
+                    }
                     var currentResult = RunTestAndOutInfo(test, instance);
                     result.Add(currentResult);
                     RunAnyMethods(listOfMethods.After, instance);
@@ -43,7 +51,7 @@ public class MyNUnit
     /// <summary>
     /// Method that prints information about test
     /// </summary>
-    public void PrintInfo(string path)
+    public void RunAndPrintInfo(string path)
     {
         var result = Start(path);
         result.ForEach(inf => Console.WriteLine($"Test '{inf.Name}' {inf.Result}. Time: {inf.Time}. {inf.ReasonOfIgnore} "));
@@ -75,7 +83,6 @@ public class MyNUnit
         {
             return e;
         }
-
         return null;
     }
 
