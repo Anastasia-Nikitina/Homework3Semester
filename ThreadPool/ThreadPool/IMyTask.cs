@@ -1,5 +1,9 @@
 namespace ThreadPool;
 
+/// <summary>
+/// Interface for custom task
+/// </summary>
+
   public interface IMyTask<out TResult>
     {
       /// <summary>

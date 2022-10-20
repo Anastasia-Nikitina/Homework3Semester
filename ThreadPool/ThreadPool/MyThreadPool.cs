@@ -7,13 +7,13 @@ namespace ThreadPool;
 public class MyThreadPool
 {
     private readonly Thread[] _threads;
-    private readonly CancellationTokenSource _cts;
-    private readonly ConcurrentQueue<Action> _tasks;
+    private readonly CancellationTokenSource _cts = new ();
+    private readonly ConcurrentQueue<Action> _tasks = new ();
     private readonly int _countOfThreads;
     private int _countOfFinishedThreads;
     private readonly AutoResetEvent _indicatorOfNewTask = new(false);
     private readonly AutoResetEvent _indicatorOfFreeThread = new(false);
-    private readonly object _lockObject = new ();
+    private readonly object _lockObject = new();
     
     /// <summary>
     /// constructor MyThreadPool
@@ -24,9 +24,7 @@ public class MyThreadPool
         {
             throw new ArgumentOutOfRangeException("Number of threads should be positive");
         }
-
-        _cts = new CancellationTokenSource();
-        _tasks = new ConcurrentQueue<Action>();
+        
         _countOfThreads = countOfThreads;
         _threads = new Thread[_countOfThreads];
         for (var i = 0; i < _countOfThreads; i++)
@@ -146,7 +144,7 @@ public class MyThreadPool
                 {
                     return _threadPool.AddTask(() => func(_result));
                 }
-                var nextTask = new MyTask<TNewResult>(()=>func(_result), _threadPool);
+                var nextTask = new MyTask<TNewResult>(() => func(_result), _threadPool);
                 _nextTasks.Enqueue(nextTask.Run);
                 
                 return nextTask;
@@ -160,11 +158,14 @@ public class MyThreadPool
         {
             try
             {
-                if (_function != null) _result = _function();
+                if (_function != null)
+                {
+                    _result = _function();
+                }
             }
             catch (Exception exception)
             {
-                _exception = new AggregateException (exception);
+                _exception = new AggregateException(exception);
             }
 
             lock (_lockObject)
@@ -184,8 +185,3 @@ public class MyThreadPool
         }
     }
 }
-
-
-
-
-
