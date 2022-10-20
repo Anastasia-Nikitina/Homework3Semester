@@ -1,14 +1,15 @@
+namespace ThreadPoll.Tests;
+
 using System;
-
-namespace ThreadPool.Tests;
-
+using System.Threading;
 using NUnit.Framework;
 using ThreadPool;
 
 public class Tests
 {
     private MyThreadPool _threadPool;
-    
+    private int c;
+
     [SetUp]
     public void Setup()
     {
@@ -25,7 +26,7 @@ public class Tests
     public void AddTaskTest()
     {
         var func = new Func<int>(() => 3 * 3);
-        Assert.AreEqual(9,_threadPool.AddTask(func).Result);
+        Assert.AreEqual(9, _threadPool.AddTask(func).Result);
     }
     
     [Test]
@@ -34,6 +35,7 @@ public class Tests
         var myTask = _threadPool.AddTask(() => 3 * 3).ContinueWith(x => x - 9);
         Assert.AreEqual(0, myTask.Result);
     }
+    
     [Test]
     public void ExceptionAfterShutDownTest()
     {
@@ -48,5 +50,32 @@ public class Tests
         var task = _threadPool.AddTask(() => "Hello, world!");
         _threadPool.Shutdown();
         Assert.AreEqual("Hello, world!", task.Result);
+    }
+    
+    [Test]
+    public void TwoTasksTest()
+    {
+        var task1 = _threadPool.AddTask(() => Interlocked.Decrement(ref c));
+        var task2 = _threadPool.AddTask(() => "cool test".ToUpper());
+        Assert.AreEqual(-1, task1.Result);
+        Assert.AreEqual("COOL TEST", task2.Result);
+        
+    }
+    
+    [Test]
+    public void ExceptionWhenCountOfThreadsIsNegative()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+        {
+            var myThreadPool = new MyThreadPool(-34);
+        });
+    }
+    
+    [Test]
+    public void ContinueWithAfterShutDownTest()
+    {
+        var task = _threadPool.AddTask(() => Math.Pow(2, 5));
+        _threadPool.Shutdown();
+        Assert.Throws<OperationCanceledException>(() => task.ContinueWith(x => x - 32));
     }
 }
