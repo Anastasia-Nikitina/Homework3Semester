@@ -1,5 +1,5 @@
-using System.Collections.Concurrent;
 namespace ThreadPool;
+using System.Collections.Concurrent;
 
 /// <summary>
 /// Class for custom thread pool
@@ -7,8 +7,8 @@ namespace ThreadPool;
 public class MyThreadPool
 {
     private readonly Thread[] _threads;
-    private readonly CancellationTokenSource _cts = new ();
-    private readonly ConcurrentQueue<Action> _tasks = new ();
+    private readonly CancellationTokenSource _cts = new();
+    private readonly ConcurrentQueue<Action> _tasks = new();
     private readonly int _countOfThreads;
     private int _countOfFinishedThreads;
     private readonly AutoResetEvent _indicatorOfNewTask = new(false);

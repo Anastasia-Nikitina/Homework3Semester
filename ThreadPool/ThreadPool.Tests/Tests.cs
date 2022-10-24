@@ -8,7 +8,7 @@ using ThreadPool;
 public class Tests
 {
     private MyThreadPool _threadPool;
-    private int c;
+    private int counter;
 
     [SetUp]
     public void Setup()
@@ -55,11 +55,10 @@ public class Tests
     [Test]
     public void TwoTasksTest()
     {
-        var task1 = _threadPool.AddTask(() => Interlocked.Decrement(ref c));
+        var task1 = _threadPool.AddTask(() => Interlocked.Decrement(ref counter));
         var task2 = _threadPool.AddTask(() => "cool test".ToUpper());
         Assert.AreEqual(-1, task1.Result);
         Assert.AreEqual("COOL TEST", task2.Result);
-        
     }
     
     [Test]
