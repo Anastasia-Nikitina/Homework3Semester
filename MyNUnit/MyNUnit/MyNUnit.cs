@@ -1,7 +1,6 @@
-using System.Collections.Concurrent;
-
 namespace MyNUnit;
 
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
 using Attributes;
@@ -13,7 +12,7 @@ using System;
 public class MyNUnit
 {
     /// <summary>
-    /// Method that running tests and outputs information
+    /// Runs tests and outputs information
     /// </summary>
     public List<InformationAboutTest> Start(string path)
     {
@@ -49,7 +48,7 @@ public class MyNUnit
     }
 
     /// <summary>
-    /// Method that prints information about test
+    /// Prints information about test
     /// </summary>
     public void RunAndPrintInfo(string path)
     {

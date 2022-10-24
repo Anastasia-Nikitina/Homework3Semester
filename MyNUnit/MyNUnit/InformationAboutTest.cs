@@ -6,22 +6,22 @@ namespace MyNUnit;
 public class InformationAboutTest
 {
     /// <summary>
-    /// The method that returns name of test
+    /// Returns name of test
     /// </summary>
     public string Name { get; }
     
     /// <summary>
-    /// The method that returns result of test
+    /// Returns result of test
     /// </summary>
     public string Result { get; }
     
     /// <summary>
-    /// The method that returns the test execution time
+    /// Returns the test execution time
     /// </summary>
     public float Time { get; }
     
     /// <summary>
-    /// The method that returns reason of ignore
+    /// Returns reason of ignore
     /// </summary>
     public string ReasonOfIgnore { get; }
 
