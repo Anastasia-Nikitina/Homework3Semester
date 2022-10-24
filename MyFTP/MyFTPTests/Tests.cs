@@ -8,22 +8,18 @@ using NUnit.Framework;
 using ProgramClient;
 using ProgramServer;
 
-
 [TestFixture]
 public class Tests
 {
     private const string Ip = "127.0.0.1";
     private const int Port = 8888;
-    private Client _client;
-    private Server _server;
+    private readonly Client _client = new (IPAddress.Parse(Ip), Port);
+    private readonly Server _server = new (IPAddress.Parse(Ip), Port);
     private readonly CancellationToken _token = new();
-
 
     [SetUp]
     public void Setup()
     {
-        _client = new Client(IPAddress.Parse(Ip), Port);
-        _server = new Server(IPAddress.Parse(Ip), Port);
         _server.Start();
     }
     
@@ -52,7 +48,6 @@ public class Tests
     {
         Assert.ThrowsAsync<FileNotFoundException>(() => _client.List("hehe.txt", _token));
     }
-    
     
     [Test]
     public void TestForGetIncorrectNameOfFile()

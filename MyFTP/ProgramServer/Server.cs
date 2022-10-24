@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-
 /// <summary>
 /// Class for MyFTP Server
 /// </summary>
@@ -37,11 +36,11 @@ public class Server
         var response = new StringBuilder((files.Length + directories.Length).ToString());
         foreach (var file in files)
         {
-            response.Append(" " + file + " false");
+            response.Append($"{file} false");
         }
         foreach (var directory in directories)
         {
-            response.Append(" " + directory + " true");
+            response.Append($"{directory} true");
         }
         await writer.WriteLineAsync(response.ToString());
     }
@@ -49,7 +48,6 @@ public class Server
     /// <summary>
     /// Gets file from server
     /// </summary>
-    /// 
     private async Task Get(string path, StreamWriter writer)
     {
         if (!File.Exists(path))
@@ -65,24 +63,26 @@ public class Server
     /// <summary>
     /// Executes listening of client
     /// </summary>
-    /// <param name="client"></param>
     private async Task Executing(TcpClient client)
     {
         await using var stream = client.GetStream();
         await using var writer = new StreamWriter(stream) {AutoFlush = true};
         using var reader = new StreamReader(stream);
         var request = (await reader.ReadLineAsync())?.Split(' ');
-        switch (request![0])
+        if (request != null)
         {
-            case "1":
-                await List(request[1], writer);
-                break;
-            case "2":
-                await Get(request[1], writer);
-                break;
-            default:
-                await writer.WriteAsync("Incorrect request");
-                break;
+            switch (request![0])
+            {
+                case "1":
+                    await List(request[1], writer);
+                    break;
+                case "2":
+                    await Get(request[1], writer);
+                    break;
+                default:
+                    await writer.WriteAsync("Incorrect request");
+                    break;
+            }
         }
     }
 

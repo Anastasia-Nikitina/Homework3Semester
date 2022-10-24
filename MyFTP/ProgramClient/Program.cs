@@ -36,7 +36,7 @@ switch (numberRequest)
         Console.WriteLine(result1.ToString());
         break;
     case 2:
-        var destination = new FileStream(args[3],FileMode.Open);
+        var destination = new FileStream(args[3], FileMode.Open);
         var result2 = await client.Get(args[3], destination, token);
         Console.WriteLine(result2);
         break;
