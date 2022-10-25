@@ -71,7 +71,7 @@ public class Server
         var request = (await reader.ReadLineAsync())?.Split(' ');
         if (request != null)
         {
-            switch (request![0])
+            switch (request[0])
             {
                 case "1":
                     await List(request[1], writer);
@@ -94,7 +94,7 @@ public class Server
         _server.Start();
         while (!_tokenSource.Token.IsCancellationRequested)
         {
-            var client = await _server.AcceptTcpClientAsync();
+            var client = await _server.AcceptTcpClientAsync(_tokenSource.Token);
             _requests.Add(Task.Run(() => Executing(client)));
         }
         Task.WaitAll(_requests.ToArray());
