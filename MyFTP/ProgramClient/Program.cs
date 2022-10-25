@@ -26,7 +26,6 @@ if (!int.TryParse(args[2], out var numberRequest) || numberRequest is not (1 or 
     Console.WriteLine("Incorrect number of request. Expected 1 for List or 2 for Get");
 }
 
-
 var token = new CancellationToken();
 var client = new Client(ip, port);
 switch (numberRequest)

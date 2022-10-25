@@ -23,7 +23,7 @@ public class Tests
         _server.Start();
     }
     
-    [TearDown]
+    [OneTimeTearDown]
     public void Teardown()
         => _server.Stop();
     
