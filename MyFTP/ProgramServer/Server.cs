@@ -36,11 +36,11 @@ public class Server
         var response = new StringBuilder((files.Length + directories.Length).ToString());
         foreach (var file in files)
         {
-            response.Append($"{file} false");
+            response.Append($" {file} false");
         }
         foreach (var directory in directories)
         {
-            response.Append($"{directory} true");
+            response.Append($" {directory} true");
         }
         await writer.WriteLineAsync(response.ToString());
     }
