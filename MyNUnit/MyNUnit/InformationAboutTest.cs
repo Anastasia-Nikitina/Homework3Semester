@@ -13,8 +13,8 @@ public class InformationAboutTest
     /// <summary>
     /// Returns result of test
     /// </summary>
-    public string Result { get; }
-    
+    public string Result { get; set; }
+
     /// <summary>
     /// Returns the test execution time
     /// </summary>

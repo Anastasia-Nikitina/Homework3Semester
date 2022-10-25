@@ -24,7 +24,16 @@ public class MyNUnit
             Parallel.ForEach(types, type =>
             {
                 var listOfMethods = SplitMethodsIntoAttributes(type);
-                RunAnyMethods(listOfMethods.BeforeClass, null);
+                try
+                {
+                    RunAnyMethods(listOfMethods.BeforeClass, null);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"BeforeClass method returned exception ({e.Message}. Tests in class won't be run.");
+                    return;
+                }
+
                 Parallel.ForEach (listOfMethods.Test, test =>
                 {
                     var instance = Activator.CreateInstance(type);
@@ -34,14 +43,33 @@ public class MyNUnit
                     }
                     catch (Exception e)
                     {
-                        result.Add(new InformationAboutTest(test.Name, "Failed: Before methods return exception", 0, e.Message));
+                        result.Add(new InformationAboutTest(test.Name, "Errored: Before method returned exception.", 0, e.Message));
                         return;
                     }
                     var currentResult = RunTestAndOutInfo(test, instance);
+                    try
+                    {
+                        RunAnyMethods(listOfMethods.After, instance);
+                    }
+                    catch (Exception e)
+                    {
+                        result.Add(new InformationAboutTest(test.Name, "Errored: After method returned exception", 0, e.Message));
+                        return;
+                    }
+                    
                     result.Add(currentResult);
-                    RunAnyMethods(listOfMethods.After, instance);
                 });
-                RunAnyMethods(listOfMethods.AfterClass, null);
+                try
+                {
+                    RunAnyMethods(listOfMethods.AfterClass, null);
+                }
+                catch (Exception e)
+                {
+                    foreach (var res in result)
+                    {
+                        res.Result = "Errored: AfterClass method returned exception";
+                    } ;
+                }
             });
         });
         return result.ToList();
@@ -56,20 +84,12 @@ public class MyNUnit
         result.ForEach(inf => Console.WriteLine($"Test '{inf.Name}' {inf.Result}. Time: {inf.Time}. {inf.ReasonOfIgnore} "));
     }
 
-    private static string RunAnyMethods(List<MethodInfo> methods, object? instance)
+    private static void RunAnyMethods(List<MethodInfo> methods, object? instance)
     {
         foreach (var method in methods)
         {
-            try
-            {
-                method.Invoke(instance, null);
-            }
-            catch (Exception e)
-            {
-                return $"Error: {e.Message}";
-            }
+            method.Invoke(instance, null);
         }
-        return "OK";
     }
     
     private static Exception? RunTestMethod(MethodBase method, object? classInstance)
