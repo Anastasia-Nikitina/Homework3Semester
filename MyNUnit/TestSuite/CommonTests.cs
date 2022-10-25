@@ -4,7 +4,7 @@ using Attributes;
 
 public class CommonTests
 {
-    public static int Counter = 0;
+    public static int Counter;
     
     [BeforeClass]
     public static void BeforeClass()
