@@ -67,7 +67,7 @@ public class MyNUnit
                 {
                     foreach (var res in result)
                     {
-                        res.Result = "Errored: AfterClass method returned exception";
+                        res.Result = $"Errored: AfterClass method returned exception ({e.Message})";
                     } ;
                 }
             });
