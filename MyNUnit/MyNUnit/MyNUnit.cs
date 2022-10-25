@@ -18,6 +18,7 @@ public class MyNUnit
     {
         var result = new ConcurrentBag<InformationAboutTest>();
         var dllFiles = Directory.GetFiles(path, "*.dll");
+        var instance = new object();
         Parallel.ForEach(dllFiles, file =>
         {
             var types = Assembly.LoadFrom(file).GetTypes();
@@ -36,7 +37,16 @@ public class MyNUnit
 
                 Parallel.ForEach (listOfMethods.Test, test =>
                 {
-                    var instance = Activator.CreateInstance(type);
+                    try
+                    {
+                        instance = Activator.CreateInstance(type);
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                        return;
+                    }
+                    
                     try
                     {
                         RunAnyMethods(listOfMethods.Before, instance);
