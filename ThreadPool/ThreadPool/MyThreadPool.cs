@@ -8,7 +8,7 @@ public class MyThreadPool
 {
     private readonly Thread[] _threads;
     private readonly CancellationTokenSource _cts = new();
-    private readonly ConcurrentQueue<Action> _tasks = new();
+    private readonly ConcurrentQueue<Action?> _tasks = new();
     private readonly int _countOfThreads;
     private int _countOfFinishedThreads;
     private readonly AutoResetEvent _indicatorOfNewTask = new(false);
@@ -36,7 +36,7 @@ public class MyThreadPool
                         if (_tasks.TryDequeue(out var func))
                         {
                             _indicatorOfNewTask.Set();
-                            func();
+                            func?.Invoke();
                         }
                         else
                         {
@@ -45,7 +45,6 @@ public class MyThreadPool
                     }
                     Interlocked.Increment(ref _countOfFinishedThreads);
                     _indicatorOfFreeThread.Set();
-
                 });
                _threads[i].Start();
         }
@@ -84,15 +83,15 @@ public class MyThreadPool
             return newTask;
         }
     }
-    
+
     /// <summary>
     /// Class for custom tasks
     /// </summary>
     private class MyTask<TResult> : IMyTask<TResult>
     {
         private static Func<TResult>? _function;
-        private readonly ConcurrentQueue<Action> _nextTasks = new();
-        private static TResult _result;
+        private readonly ConcurrentQueue<Action?> _nextTasks = new();
+        private static TResult _result = default!;
         private Exception? _exception;
         private readonly object _lockObject = new();
         private readonly MyThreadPool _threadPool;
@@ -175,7 +174,7 @@ public class MyThreadPool
                 _isResultCalculated.Set();
                 while (!_nextTasks.IsEmpty)
                 {
-                    if (_nextTasks.TryDequeue(out Action nextTask))
+                    if (_nextTasks.TryDequeue(out Action? nextTask))
                     {
                         _threadPool._tasks.Enqueue(nextTask);
                         _threadPool._indicatorOfNewTask.Set();
