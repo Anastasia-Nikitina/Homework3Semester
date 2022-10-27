@@ -1,6 +1,6 @@
-using Attributes;
-
 namespace TestSuite;
+
+using Attributes;
 
 public class IgnoredAndExpectedTests
 {
