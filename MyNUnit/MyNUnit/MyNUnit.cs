@@ -31,6 +31,10 @@ public class MyNUnit
                 }
                 catch (Exception e)
                 {
+                    foreach (var test in listOfMethods.Test)
+                    {
+                        result.Add(new InformationAboutTest(test.Name, "Errored: BeforeClass method returned exception", 0, e.Message));
+                    }
                     Console.WriteLine($"BeforeClass method returned exception ({e.Message}. Tests in class won't be run.");
                     return;
                 }
@@ -41,7 +45,7 @@ public class MyNUnit
                     {
                         instance = Activator.CreateInstance(type);
                     }
-                    catch(Exception e)
+                    catch (TargetInvocationException e)
                     {
                         Console.WriteLine(e.Message);
                         return;
