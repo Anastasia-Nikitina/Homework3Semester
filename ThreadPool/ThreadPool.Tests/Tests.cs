@@ -69,45 +69,34 @@ public class Tests
             var myThreadPool = new MyThreadPool(-34);
         });
     }
-
     
     [Test]
-    public void TestForMultiThreading()
+    public void MultiThreadTest()
     {
-        var manualResetEvent = new ManualResetEvent(false);
-        var thread1 = new Thread(() =>
+        var threads = new Thread[5];
+        var tasks = new IMyTask<int>[5];
+
+        for (var i = 0; i < 5; ++i)
         {
-            manualResetEvent.WaitOne();
-            Assert.Throws<OperationCanceledException>(() => _threadPool.AddTask(() => 100 + 1));
-        });
-        var thread2 = new Thread(() =>
+            var j = i;
+            threads[i] = new Thread(() =>
+            {
+                tasks[j] = _threadPool.AddTask(() => (j + 1) * 2);
+            });
+        }
+
+        foreach (var thread in threads)
         {
-            _threadPool.Shutdown();
-            manualResetEvent.Set();
-            
-        });
-        thread1.Start();
-        thread2.Start();
-        thread1.Join();
-        thread2.Join();
-        var otherThreadPool = new MyThreadPool(10);
-        manualResetEvent.Reset();
-        var thread3 = new Thread(() =>
+            thread.Start();
+        }
+        foreach (var thread in threads)
         {
-            var task = otherThreadPool.AddTask(() => "ok");
-            manualResetEvent.Set();
-            Assert.AreEqual("ok", task.Result);
-            
-        });
-        var thread4 = new Thread(() =>
+            thread.Join();
+        }
+
+        for (var i = 0; i < 4; ++i)
         {
-            manualResetEvent.WaitOne();
-            otherThreadPool.Shutdown();
-            
-        });
-        thread3.Start();
-        thread4.Start();
-        thread3.Join();
-        thread4.Join();
+            Assert.IsTrue(tasks[i].IsCompleted);
+        }
     }
 }
