@@ -1,44 +1,38 @@
-﻿namespace TestSuite;
+﻿using System.Diagnostics.Metrics;
+
+namespace TestSuite;
 
 using Attributes;
 
 public class CommonTests
 {
-    public static int Counter;
-    
-    [BeforeClass]
-    public static void BeforeClass()
-    {
-        Interlocked.Increment(ref Counter);
-    }
-
+    private static int counter;
     [Before]
     public void Before()
     {
-        Interlocked.Add(ref Counter, 5);
     }
 
     [Test]
     public void PassedTest()
     {
-        Interlocked.Add(ref Counter, -5);
+        Thread.Sleep(500);
     }
 
     [Test]
     public void FailedTest()
     {
+        Thread.Sleep(300);
         throw new Exception();
     }
 
     [After]
     public void After()
     {
-        Interlocked.Add(ref Counter, 10);
+        Interlocked.Increment(ref counter);
     }
 
     [AfterClass]
     public static void AfterClass()
     {
-        
     }
 }
