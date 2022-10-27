@@ -16,7 +16,7 @@ public class Tests
     [Test]
     public void ForFailedAndPassedTests()
     {
-        Assert.AreEqual(16, CommonTests.Counter);
+        Assert.AreEqual(11, CommonTests.Counter);
     }
     
     [Test]

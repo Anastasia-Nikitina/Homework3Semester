@@ -39,6 +39,6 @@ public class CommonTests
     [AfterClass]
     public static void AfterClass()
     {
-        Interlocked.Add(ref Counter, -10);
+        
     }
 }
