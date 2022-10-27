@@ -1,7 +1,7 @@
+namespace NUnitTest;
+
 using NUnit.Framework;
 using TestSuite;
-
-namespace NUnitTest;
 
 public class Tests
 {
