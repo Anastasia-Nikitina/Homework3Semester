@@ -38,7 +38,10 @@ public class Client
         await writer.WriteLineAsync("1 " + path);
         var files = new List<(string, bool)>();
         var response = await reader.ReadLineAsync();
-        if (response == null) throw new NullReferenceException();
+        if (response == null)
+        {
+            throw new EmptyResponseException("Response is null");
+        }
         var splitResponse = response.Split(' ');
         if (splitResponse[0] == "-1")
         {
